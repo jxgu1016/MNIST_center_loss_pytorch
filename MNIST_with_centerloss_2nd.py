@@ -6,6 +6,7 @@ from torchvision import datasets, transforms
 from torch.autograd import Variable
 from torchvision import datasets
 from  torch.utils.data import DataLoader
+from CenterLoss import CenterLoss
 import matplotlib.pyplot as plt
 
 
@@ -44,7 +45,7 @@ class Net(nn.Module):
         return ip1, F.log_softmax(ip2)
 
 
-def train(train_loader, model, centers, criterion, optimizer, epoch):
+def train(train_loader, model, criterion, optimizer, epoch):
     print "Training... Epoch = %d" % epoch
     ip1_loader = []
     idx_loader = []
@@ -53,7 +54,7 @@ def train(train_loader, model, centers, criterion, optimizer, epoch):
             data, target = Variable(data), Variable(target)
             ip1, pred = model(data)
             print i
-            loss = criterion(pred, target) + CenterLoss(target, ip1, centers)
+            loss = criterion[0](pred, target) + criterion[1](target, ip1)
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
@@ -77,13 +78,6 @@ def visualize(feat, labels, epoch):
     plt.show()
     plt.pause(0.001)
 
-def CenterLoss(y, feat, centers):
-    centers_pred = centers.index_select(0, y.long())
-    # print centers_pred.size()
-    # print feat
-    difference   = feat - centers_pred
-    loss         = difference.pow(2).sum() / (2*  y.size()[0])
-    return loss
 
 def main():
     # Dataset
@@ -96,16 +90,18 @@ def main():
     model = Net()
 
     # NLLLoss
-    criterion = nn.NLLLoss() #CrossEntropyLoss = log_softmax + NLLLoss
+    nllloss = nn.NLLLoss() #CrossEntropyLoss = log_softmax + NLLLoss
+    # CenterLoss
+    centerloss = CenterLoss(10,2)
 
-    # init centers
-    centers = Variable(torch.randn(10, 2).type(torch.FloatTensor), requires_grad=True)
+    criterion = [nllloss, centerloss]
 
     # 'centers' included
-    optimizer = optim.Adam([{'params':model.parameters()},{'params': [centers]}])
+    optimizer = optim.Adam([{'params':model.parameters()},{'params': centerloss.parameters()}])
 
     for epoch in range(5):
-        train(train_loader, model, centers, criterion, optimizer, epoch+1)
+        # print centerloss.centers
+        train(train_loader, model, criterion, optimizer, epoch+1)
 
 
 if __name__ == '__main__':
