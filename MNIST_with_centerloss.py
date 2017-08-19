@@ -55,7 +55,7 @@ def visualize(feat, labels, epoch):
     plt.legend(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], loc = 'upper right')
     plt.xlim(xmin=-5,xmax=5)
     plt.ylim(ymin=-5,ymax=5)
-    plt.text(-5,5,"./images/epoch=%d" % epoch)
+    plt.text(-4.8,4.6,"epoch=%d" % epoch)
     plt.savefig('./images/epoch=%d.jpg' % epoch)
     plt.draw()
     plt.pause(0.001)
