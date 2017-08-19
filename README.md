@@ -1,11 +1,15 @@
 # MNIST_with_centerloss.pytorch
 
-![ada](images/1.0.gif)
-![ada](images/1.0.jpg)
+![](./images/1.0.gif)
 $$ \lambda = 1.0 $$
-![ada](images/0.1.gif)
-![ada](images/0.1.jpg)
+![](./images/0.1.gif)
 $$ \lambda = 0.1 $$
+![](./images/0.01.gif)
+$$ \lambda = 0.01 $$
+![](./images/0.gif)
+$$ \lambda = 0 $$
 to be continued...
+
+
 
 
