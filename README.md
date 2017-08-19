@@ -1,5 +1,7 @@
 # MNIST_with_centerloss.pytorch
 
-![ada](images/adam.gif)
+![ada](images/1.0.gif)
 
 to be continued...
+
+
