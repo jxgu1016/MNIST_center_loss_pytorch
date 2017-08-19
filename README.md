@@ -1,5 +1,7 @@
 # MNIST_center_loss.pytorch
 
+## Please wait until these gifs load 0.0
+
 ![](./images/1.0.gif)
 $$ \lambda = 1.0 $$
 ![](./images/0.1.gif)
