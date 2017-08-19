@@ -94,4 +94,4 @@ ENV/
 .DS_Store
 
 .idea
-*.jpg
+#*.jpg
