@@ -4,7 +4,7 @@ from torch.autograd import Variable
 import numpy as np
 
 class CenterLoss(nn.Module):
-    def __init__(self, num_classes, feat_dim，loss_weight=1.0):
+    def __init__(self, num_classes, feat_dim, loss_weight=1.0):
         super(CenterLoss, self).__init__()
         self.num_classes = num_classes
         self.feat_dim = feat_dim
@@ -14,25 +14,27 @@ class CenterLoss(nn.Module):
         self.use_cuda = False
 
     def forward(self, y, feat):
-        centers_pred = self.centers.index_select(0, y.long())
-        count = np.ones(self.num_classes)
+    	# torch.histc can only be implemented on CPU
+    	# To calculate the total number of every class in one mini-batch. See Equation 4 in the paper
+        if self.use_cuda:
+            hist = Variable(torch.histc(y.cpu().data.float(),bins=self.num_classes,min=0,max=self.num_classes) + 1).cuda()
+        else:
+            hist = Variable(torch.histc(y.data.float(),bins=self.num_classes,min=0,max=self.num_classes) + 1)
 
+        centers_count = hist.index_select(0,y.long())
+
+
+        # To squeeze the Tenosr
         batch_size = feat.size()[0]
         feat = feat.view(batch_size, 1, 1, -1).squeeze()
-        
+        # To check the dim of centers and features
         if feat.size()[1] != self.feat_dim:
             raise ValueError("Center's dim: {0} should be equal to input feature's dim: {1}".format(self.feat_dim,feat.size()[1]))
 
-        if self.use_cuda:
-            y = y.cpu()
-        y_np = y.data.numpy().astype(int)
-        for n in y_np:
-            count[n] += 1
-        count_center = Variable(torch.Tensor(count[y_np]))
-        if self.use_cuda:
-            count_center = count_center.cuda()
+        centers_pred = self.centers.index_select(0, y.long())
         diff = feat - centers_pred
-        loss = 1 / 2.0 *(diff.pow(2).sum(1) / count_center).sum() * self.loss_weight
+        loss = self.loss_weight * 1 / 2.0 * (diff.pow(2).sum(1) / centers_count).sum()
+        return loss
 
     def cuda(self, device_id=None):
         """Moves all model parameters and buffers to the GPU.
@@ -48,13 +50,14 @@ class CenterLoss(nn.Module):
 
 def main():
     ct = CenterLoss(10,2)
+    # ct = ct.cuda()
     print list(ct.parameters())
 
     print ct.centers.grad
 
-    y = Variable(torch.Tensor((0,0,0,1)))
+    y = Variable(torch.Tensor([0,0,0,1]))#.cuda()
     # print y
-    feat = Variable(torch.zeros(4,2),requires_grad=True)
+    feat = Variable(torch.zeros(4,2),requires_grad=True)#.cuda()
     # print feat
 
     out = ct(y,feat)
