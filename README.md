@@ -1,4 +1,4 @@
-# MNIST_with_centerloss.pytorch
+# MNIST_center_loss.pytorch
 
 ![](./images/1.0.gif)
 $$ \lambda = 1.0 $$
