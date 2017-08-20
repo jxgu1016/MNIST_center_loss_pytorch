@@ -9,11 +9,11 @@ Results are shown below:
 <div align=center><img width="400" height="300" src="https://github.com/jxgu1016/MNIST_center_loss.pytorch/raw/master/images/1.0.jpg"/></div>
 <div align=center>softmax loss and center loss</div>
 <div align=center><img width="400" height="300" src="https://github.com/jxgu1016/MNIST_center_loss.pytorch/raw/master/images/0.jpg"/></div>
-<div align=center>`only softmax loss`</div>
+<div align=center>only softmax loss</div>
 
 The code also incluedes visualization of the training process and please wait until these gifs load
 
 <div align=center><img width="400" height="300" src="https://github.com/jxgu1016/MNIST_center_loss.pytorch/raw/master/images/1.0.gif"/></div>
 <div align=center>softmax loss and center loss</div>
 <div align=center><img width="400" height="300" src="https://github.com/jxgu1016/MNIST_center_loss.pytorch/raw/master/images/0.gif"/></div>
-<div align=center>`only softmax loss`</div>
+<div align=center>only softmax loss</div>
