@@ -1,24 +1,17 @@
 # MNIST_center_loss.pytorch
 
-## Please wait until these gifs load 0.0
-<div align=center><img width="400" height="400" src="https://github.com/jxgu1016/MNIST_center_loss.pytorch/raw/master/images/1.0.gif"/></div>
+A pytorch implementation of center loss on MNIST and it's a toy example of ECCV2016 paper [A Discriminative Feature Learning Approach for Deep Face Recognition](https://github.com/ydwen/caffe-face)
 
-![](http://latex.codecogs.com/gif.latex?\lambda=1.0)
+In order to ease the classifiers, center loss was designed to make samples in each class flock together.
 
-![](./images/0.1.gif)
+Results are shown below:
 
-![](http://latex.codecogs.com/gif.latex?\lambda=0.1)
+<div align=center><img width="400" height="300" src="https://github.com/jxgu1016/MNIST_center_loss.pytorch/raw/master/images/1.0.jpg"/></div>
+<div align=center><img width="400" height="300" src="https://github.com/jxgu1016/MNIST_center_loss.pytorch/raw/master/images/0.jpg"/></div>
 
-![](./images/0.01.gif)
+`left`:softmax loss and center loss `right`: only softmax loss
 
-![](http://latex.codecogs.com/gif.latex?\lambda=0.01)
+The code also incluedes visualization of the training process and please wait until these gifs load
 
-![](./images/0.gif)
-
-<center>![](http://latex.codecogs.com/gif.latex?\lambda=0)</center>
-
-to be continued...
-
-
-
-
+<div align=center><img width="400" height="300" src="https://github.com/jxgu1016/MNIST_center_loss.pytorch/raw/master/images/1.0.gif"/></div>
+<div align=center><img width="400" height="300" src="https://github.com/jxgu1016/MNIST_center_loss.pytorch/raw/master/images/0.gif"/></div>
