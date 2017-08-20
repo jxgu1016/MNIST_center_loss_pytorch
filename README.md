@@ -2,14 +2,18 @@
 
 ## Please wait until these gifs load 0.0
 
-![](./images/1.0.gif)
-$$ \lambda = 1.0 $$
+![](https://github.com/jxgu1016/MNIST_center_loss.pytorch/raw/master/images/1.0.gif)
+![](http://latex.codecogs.com/gif.latex?\lambda=1.0)
+
 ![](./images/0.1.gif)
-$$ \lambda = 0.1 $$
+![](http://latex.codecogs.com/gif.latex?\lambda=0.1)
+
 ![](./images/0.01.gif)
-$$ \lambda = 0.01 $$
+![](http://latex.codecogs.com/gif.latex?\lambda=0.01)
+
 ![](./images/0.gif)
-$$ \lambda = 0 $$
+![](http://latex.codecogs.com/gif.latex?\lambda=0)
+
 to be continued...
 
 
