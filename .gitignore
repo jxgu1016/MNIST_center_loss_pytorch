@@ -95,3 +95,4 @@ ENV/
 
 .idea
 #*.jpg
+ignored/*
