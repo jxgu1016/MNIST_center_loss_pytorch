@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
-import numpy as np
 
 class CenterLoss(nn.Module):
     def __init__(self, num_classes, feat_dim, loss_weight=1.0):
