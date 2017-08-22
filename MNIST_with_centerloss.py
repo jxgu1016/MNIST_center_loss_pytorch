@@ -115,11 +115,11 @@ def main():
     criterion = [nllloss, centerloss]
     
     # optimzer4nn
-    optimizer4nn = optim.SGD(model.parameters(),lr=0.001,momentum=0.9)
+    optimizer4nn = optim.SGD(model.parameters(),lr=0.001,momentum=0.9, weight_decay=0.0005)
     sheduler = lr_scheduler.StepLR(optimizer4nn,20,gamma=0.8)
 
     # optimzer4center
-    optimzer4center = optim.SGD(centerloss.parameters(), lr =0.5, weight_decay=0.0005)
+    optimzer4center = optim.SGD(centerloss.parameters(), lr =0.5)
 
     for epoch in range(50):
         sheduler.step()
