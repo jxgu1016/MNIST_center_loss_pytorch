@@ -5,11 +5,10 @@ from torch.autograd.function import Function
 
 
 class CenterLoss(nn.Module):
-    def __init__(self, num_classes, feat_dim, loss_weight=1.0):
+    def __init__(self, num_classes, feat_dim):
         super(CenterLoss, self).__init__()
         self.num_classes = num_classes
         self.feat_dim = feat_dim
-        self.loss_weight = loss_weight
         self.centers = nn.Parameter(torch.randn(num_classes, feat_dim))
         # self.register_parameter('centers', self.centers) # no need to register manually. See nn.Module.__setattr__(...)
         self.centerlossfunction = CenterlossFunction.apply
@@ -20,8 +19,8 @@ class CenterLoss(nn.Module):
         feat = feat.view(batch_size, 1, 1, -1).squeeze()
         # To check the dim of centers and features
         if feat.size(1) != self.feat_dim:
-            raise ValueError("Center's dim: {0} should be equal to input feature's dim: {1}".format(self.feat_dim,feat.size()[1]))
-        return self.loss_weight * self.centerlossfunction(feat, y, self.centers)
+            raise ValueError("Center's dim: {0} should be equal to input feature's dim: {1}".format(self.feat_dim,feat.size(1)))
+        return self.centerlossfunction(feat, y, self.centers)
 
 
 class CenterlossFunction(Function):
