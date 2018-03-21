@@ -53,15 +53,15 @@ def visualize(feat, labels, epoch):
     for i in range(10):
         plt.plot(feat[labels == i, 0], feat[labels == i, 1], '.', c=c[i])
     plt.legend(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], loc = 'upper right')
-    plt.xlim(xmin=-5,xmax=5)
-    plt.ylim(ymin=-5,ymax=5)
+ #   plt.xlim(xmin=-5,xmax=5)
+ #   plt.ylim(ymin=-5,ymax=5)
     plt.text(-4.8,4.6,"epoch=%d" % epoch)
     plt.savefig('./images/epoch=%d.jpg' % epoch)
     plt.draw()
     plt.pause(0.001)
 
 
-def train(train_loader, model, criterion, optimizer, epoch, loss_weight, use_cuda):
+def train(train_loader, model, criterion, optimizer, epoch, use_cuda):
     print "Training... Epoch = %d" % epoch
     ip1_loader = []
     idx_loader = []
@@ -72,7 +72,7 @@ def train(train_loader, model, criterion, optimizer, epoch, loss_weight, use_cud
         data, target = Variable(data), Variable(target)
 
         ip1, pred = model(data)
-        loss = criterion[0](pred, target) + loss_weight * criterion[1](target, ip1)
+        loss = criterion[0](pred, target) + criterion[1](target, ip1)
 
         optimizer[0].zero_grad()
         optimizer[1].zero_grad()
@@ -95,7 +95,7 @@ def main():
         use_cuda = True
     else: use_cuda = False
     # Dataset
-    trainset = datasets.MNIST('../../data', download=True,train=True, transform=transforms.Compose([
+    trainset = datasets.MNIST('../data', download=True,train=True, transform=transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize((0.1307,), (0.3081,))]))
     train_loader = DataLoader(trainset, batch_size=128, shuffle=True, num_workers=4)
@@ -106,8 +106,8 @@ def main():
     # NLLLoss
     nllloss = nn.NLLLoss() #CrossEntropyLoss = log_softmax + NLLLoss
     # CenterLoss
-    loss_weight = 1.0
-    centerloss = CenterLoss(10,2)
+    loss_weight = 1
+    centerloss = CenterLoss(10, 2, loss_weight)
     if use_cuda:
         nllloss = nllloss.cuda()
         centerloss = centerloss.cuda()
@@ -121,10 +121,10 @@ def main():
     # optimzer4center
     optimzer4center = optim.SGD(centerloss.parameters(), lr =0.5)
 
-    for epoch in range(50):
+    for epoch in range(100):
         sheduler.step()
         # print optimizer4nn.param_groups[0]['lr']
-        train(train_loader, model, criterion, [optimizer4nn, optimzer4center], epoch+1,loss_weight, use_cuda)
+        train(train_loader, model, criterion, [optimizer4nn, optimzer4center], epoch+1, use_cuda)
 
 
 if __name__ == '__main__':
