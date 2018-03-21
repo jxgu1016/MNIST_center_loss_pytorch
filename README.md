@@ -1,5 +1,8 @@
 ### UPDATE(Mar. 2018)
-Problems reported in [NOTIFICATION](#jump) now has been SOLVED! New result is shown below and looks similar to the former one
+Problems reported in the [NOTIFICATION](#jump) now has been SOLVED! New result is shown below and looks similar to the former one.
+If you want to try the former one, please return to [Commits on Feb 12, 2018](https://github.com/jxgu1016/MNIST_center_loss_pytorch/tree/dbeea5380de8a3c6b1b3b3f2c411b980e143dd87).
+
+Some code can be and should be **optimized** when calculating Eq.4 in [*backword()*](https://github.com/jxgu1016/MNIST_center_loss_pytorch/blob/master/CenterLoss.py) to replace the for-loop and feel free to pull your request.
 
 ### NOTIFICATION(Feb. 2018)
 <span id="jump"> </span>
