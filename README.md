@@ -1,11 +1,11 @@
 ### UPDATE(Mar. 2018)
-Problems reported in [NOTIFICATION](#jump) now has been SOLVED!
+Problems reported in [NOTIFICATION](#jump) now has been SOLVED! New result is shown below and looks similar to the former one
 
 ### NOTIFICATION(Feb. 2018)
-
+<span id="jump"> </span>
 In the begining, it was just a practise project to get familiar with PyTorch. Surprisedly, I didn't expect that there would be so many researchers following my repo of center loss. In that case, I'd like to illustrate that this implementation is **not exactly the same** as the official one.
 
-If you read the equations in the paper carefully, the defination of center loss in the Eq. 2 can only lead you to the Eq. 3 but the update equation of centers in Eq. 4 can not be inferred arrcoding to the differentiation formulas. If not specified, the derivatives of one module are decided by the forward operation following the strategy of autograd in PyTorch. Considering the  <span id="jump">incompatibility</span> of Eq. 3 and Eq. 4, only one of them can be implemented correctly and what I chose was the latter one. If you remvoe the *centers_count* in my code, this will lead you to the Eq. 3.
+If you read the equations in the paper carefully, the defination of center loss in the Eq. 2 can only lead you to the Eq. 3 but the update equation of centers in Eq. 4 can not be inferred arrcoding to the differentiation formulas. If not specified, the derivatives of one module are decided by the forward operation following the strategy of autograd in PyTorch. Considering the incompatibility  of Eq. 3 and Eq. 4, only one of them can be implemented correctly and what I chose was the latter one. If you remvoe the *centers_count* in my code, this will lead you to the Eq. 3.
 
 This problem exists in other implementaions and the impact remains unknown but looks harmless.
 
