@@ -61,7 +61,7 @@ def visualize(feat, labels, epoch):
     plt.pause(0.001)
 
 
-def train(train_loader, model, criterion, optimizer, epoch, use_cuda):
+def train(train_loader, model, criterion, optimizer, epoch, loss_weight, use_cuda):
     print "Training... Epoch = %d" % epoch
     ip1_loader = []
     idx_loader = []
@@ -72,7 +72,7 @@ def train(train_loader, model, criterion, optimizer, epoch, use_cuda):
         data, target = Variable(data), Variable(target)
 
         ip1, pred = model(data)
-        loss = criterion[0](pred, target) + criterion[1](target, ip1)
+        loss = criterion[0](pred, target) + loss_weight * criterion[1](target, ip1)
 
         optimizer[0].zero_grad()
         optimizer[1].zero_grad()
@@ -107,7 +107,7 @@ def main():
     nllloss = nn.NLLLoss() #CrossEntropyLoss = log_softmax + NLLLoss
     # CenterLoss
     loss_weight = 1
-    centerloss = CenterLoss(10, 2, loss_weight)
+    centerloss = CenterLoss(10, 2)
     if use_cuda:
         nllloss = nllloss.cuda()
         centerloss = centerloss.cuda()
@@ -124,7 +124,7 @@ def main():
     for epoch in range(100):
         sheduler.step()
         # print optimizer4nn.param_groups[0]['lr']
-        train(train_loader, model, criterion, [optimizer4nn, optimzer4center], epoch+1, use_cuda)
+        train(train_loader, model, criterion, [optimizer4nn, optimzer4center], epoch+1, loss_weight, use_cuda)
 
 
 if __name__ == '__main__':
