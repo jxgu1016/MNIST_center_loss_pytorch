@@ -5,7 +5,7 @@ from torch.autograd.function import Function
 
 
 class CenterLoss(nn.Module):
-    def __init__(self, num_classes, feat_dim, loss_weight=1.0):
+    def __init__(self, num_classes, feat_dim):
         super(CenterLoss, self).__init__()
         self.num_classes = num_classes
         self.feat_dim = feat_dim
