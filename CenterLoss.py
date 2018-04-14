@@ -35,26 +35,24 @@ class CenterlossFunction(Function):
 
     @staticmethod
     def backward(ctx, grad_output):
-        feature, label, centers = ctx.saved_variables
+        # feature, label, centers = ctx.saved_variables
+        feature, label, centers = ctx.saved_tensors
         grad_feature = feature - centers.index_select(0, label.long()) # Eq. 3
 
         # init every iteration
-        counts = torch.ones(centers.size(0))
-        grad_centers = torch.zeros(centers.size())
-        if feature.is_cuda:
-            counts = counts.cuda()
-            grad_centers = grad_centers.cuda()
+        counts = centers.new(centers.size(0)).fill_(1)
+        grad_centers = centers.new(centers.size()).fill_(0)
         # print counts, grad_centers
 
         # Eq. 4 || need optimization !! To be vectorized, but how?
         for i in range(feature.size(0)):
-            j = int(label[i].data[0])
+            j = int(label[i])
             counts[j] += 1
-            grad_centers[j] += (centers.data[j] - feature.data[i])
+            grad_centers[j] += (centers[j] - feature[i])
         # print counts
-        grad_centers = Variable(grad_centers/counts.view(-1, 1))
+        grad_centers = grad_centers/counts.view(-1, 1)
 
-        return grad_feature * grad_output, None, grad_centers # grad_centers need to mul grad_output(loss_weight)??? I think not.
+        return Variable(grad_feature * grad_output.data), None, Variable(grad_centers) # grad_centers need to mul grad_output(loss_weight)??? I think not.
 
 
 def main(test_cuda=False):
