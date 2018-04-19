@@ -1,3 +1,7 @@
+### UPDATE(Apr. 2018)
+Thanks [@wenfahu](https://github.com/wenfahu) for accomplishing the optimization of *backward()*.
+
+
 ### UPDATE(Mar. 2018)
 Problems reported in the [NOTIFICATION](#jump) now has been SOLVED! Functionally, this repo is exactly the same as the official repo. New result is shown below and looks similar to the former one.
 If you want to try the former one, please return to [Commits on Feb 12, 2018](https://github.com/jxgu1016/MNIST_center_loss_pytorch/tree/dbeea5380de8a3c6b1b3b3f2c411b980e143dd87).
