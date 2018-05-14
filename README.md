@@ -1,3 +1,7 @@
+### UPDATE(May. 2018)
+Migration to PyTorch 0.4 done!
+
+
 ### UPDATE(Apr. 2018)
 Thanks [@wenfahu](https://github.com/wenfahu) for accomplishing the optimization of *backward()*.
 
