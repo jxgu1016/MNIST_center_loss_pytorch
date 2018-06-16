@@ -2,13 +2,13 @@ import torch
 import torch.nn as nn
 from torch.autograd.function import Function
 
-
 class CenterLoss(nn.Module):
-    def __init__(self, num_classes, feat_dim ):
+    def __init__(self, num_classes, feat_dim, size_average=True):
         super(CenterLoss, self).__init__()
         self.centers = nn.Parameter(torch.randn(num_classes, feat_dim))
         self.centerlossfunc = CenterlossFunc.apply
         self.feat_dim = feat_dim
+        self.size_average = size_average
 
     def forward(self, label, feat):
         batch_size = feat.size(0)
@@ -16,7 +16,9 @@ class CenterLoss(nn.Module):
         # To check the dim of centers and features
         if feat.size(1) != self.feat_dim:
             raise ValueError("Center's dim: {0} should be equal to input feature's dim: {1}".format(self.feat_dim,feat.size(1)))
-        return self.centerlossfunc(feat, label, self.centers)
+        loss = self.centerlossfunc(feat, label, self.centers)
+        loss /= (batch_size if self.size_average else 1)
+        return loss
 
 
 class CenterlossFunc(Function):
@@ -39,7 +41,7 @@ class CenterlossFunc(Function):
         counts = counts.scatter_add_(0, label.long(), ones)
         grad_centers.scatter_add_(0, label.unsqueeze(1).expand(feature.size()).long(), diff)
         grad_centers = grad_centers/counts.view(-1, 1)
-        return - grad_output.data * diff, None, grad_centers
+        return - grad_output * diff, None, grad_centers
 
 
 def main(test_cuda=False):
@@ -47,7 +49,7 @@ def main(test_cuda=False):
     device = torch.device("cuda" if test_cuda else "cpu")
     ct = CenterLoss(10,2).to(device)
     y = torch.Tensor([0,0,2,1]).to(device)
-    feat = torch.zeros(4,2,).to(device).requires_grad_()
+    feat = torch.zeros(4,2).to(device).requires_grad_()
     print (list(ct.parameters()))
     print (ct.centers.grad)
     out = ct(y,feat)
