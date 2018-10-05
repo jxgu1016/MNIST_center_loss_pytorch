@@ -1,4 +1,4 @@
-### UPDATE(Oct. 2018))
+### UPDATE(Oct. 2018)
 By dropping the bias of the last fc layer according to the [issue](https://github.com/jxgu1016/MNIST_center_loss_pytorch/issues/8), the centers tend to distribute around a circle as reported in the orignal paper.
 
 
