@@ -25,8 +25,8 @@ class Net(nn.Module):
         self.conv3_2 = nn.Conv2d(128, 128, kernel_size=5, padding=2)
         self.prelu3_2 = nn.PReLU()
         self.preluip1 = nn.PReLU()
-        self.ip1 = nn.Linear(128*3*3, 2)
-        self.ip2 = nn.Linear(2, 10)
+        self.ip1 = nn.Linear(128*3*3, 2, bias=False)
+        self.ip2 = nn.Linear(2, 10, bias=False)
 
     def forward(self, x):
         x = self.prelu1_1(self.conv1_1(x))
@@ -51,9 +51,9 @@ def visualize(feat, labels, epoch):
     for i in range(10):
         plt.plot(feat[labels == i, 0], feat[labels == i, 1], '.', c=c[i])
     plt.legend(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], loc = 'upper right')
-    plt.xlim(xmin=-5,xmax=5)
-    plt.ylim(ymin=-5,ymax=5)
-    plt.text(-4.8,4.6,"epoch=%d" % epoch)
+    plt.xlim(xmin=-8,xmax=8)
+    plt.ylim(ymin=-8,ymax=8)
+    plt.text(-7.8,7.3,"epoch=%d" % epoch)
     plt.savefig('./images/epoch=%d.jpg' % epoch)
     plt.draw()
     plt.pause(0.001)
