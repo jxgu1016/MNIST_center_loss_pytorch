@@ -25,7 +25,7 @@ class Net(nn.Module):
         self.conv3_2 = nn.Conv2d(128, 128, kernel_size=5, padding=2)
         self.prelu3_2 = nn.PReLU()
         self.preluip1 = nn.PReLU()
-        self.ip1 = nn.Linear(128*3*3, 2, bias=False)
+        self.ip1 = nn.Linear(128*3*3, 2)
         self.ip2 = nn.Linear(2, 10, bias=False)
 
     def forward(self, x):
